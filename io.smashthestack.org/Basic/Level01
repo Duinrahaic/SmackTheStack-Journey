@@ -7,7 +7,7 @@ using ./ I am able to execute (run) a level. For example ./level01 gives me the 
 
 Executing ./level01 for the first time we are confronted with a three digit passcode.
 
-Attemps 001,123,000, and 111 did not work.
+Attemps 001,123,000, and 111 did not work. Was just trying luck of the draw on that one. 
 
 After some research I was able to see that there was a debugger (gdb) where I can see the code run without modifying or being able to view the soruce code.
 
@@ -56,5 +56,46 @@ Now we can figure out information on the info registers found at this point. Inf
 
 Things to note: 
       eip has the same address as our breakpoint/the cmp command. So I assume this means "Execution in progress".
-      eax and ebx holds the value 999 which is what i entered as a test passcode
+      eax and ebx holds the value 999 which is what i entered as a test passcode.
+      We can see the values 115 and 123... could those be the answer? Wait, 123 wasn't because I used that earlier tring to do brute force.
+
+(gdb) Quit <---- Quits the program (it asks y or n before exit)
+
+Trying 115... doesn't work! Back to the gdb!
+
+We can try and get a little more information from the processor to try and see what else is going on. 
+x/AAi BBBB  tells the debugger "Hey tell me the next #(AA) set of assembler instructions (i) at this address (BBBB)!"
+so we want the next 20 instructions at the eip.
+(gdb) x/20i $eip              <--- $eip meaing the current value or address at eip. A dollar symbol "$" denotes current value of address counter in the currently active segment.
+      => 0x804808f <main+15>: cmp    $0x10f,%eax            <--- Compare
+         0x8048094 <main+20>: je     0x80480dc <YouWin>     <--- True go to... ---- + 
+         0x804809a <main+26>: call   0x8048103 <exit>       <--- Else exit          |
+         0x804809f <fscanf>:  sub    $0x1000,%esp                                   |
+         0x80480a5 <fscanf+6>:        mov    $0x3,%eax                              |
+         0x80480aa <fscanf+11>:       mov    $0x0,%ebx                              |     
+         0x80480af <fscanf+16>:       mov    %esp,%ecx                              |
+         0x80480b1 <fscanf+18>:       mov    $0x1000,%edx                           |
+         0x80480b6 <fscanf+23>:       int    $0x80                                  |
+         0x80480b8 <fscanf+25>:       mov    %esp,%esi                              |
+         0x80480ba <fscanf+27>:       xor    %ebx,%ebx                              |
+         0x80480bc <skipwhite>:       xor    %eax,%eax      <--- here --------------+ So eax holds our value huh?
+         0x80480be <skipwhite+2>:     lods   %ds:(%esi),%al
+         0x80480bf <skipwhite+3>:     cmp    $0x20,%al
+         0x80480c1 <skipwhite+5>:     je     0x80480bc <skipwhite>
+         0x80480c3 <doit>:    sub    $0x30,%al
+         0x80480c5 <doit+2>:  cmp    $0x9,%al
+         0x80480c7 <doit+4>:  ja     0x80480d3 <exitscanf>
+         0x80480c9 <doit+6>:  imul   $0xa,%ebx,%ebx
+         0x80480cc <doit+9>:  add    %eax,%ebx
+
+So I believe the answer is contained in at 0x80480bc, so I can use x/ to find out what its interpreting at that address. 
+(gdb) x/i 0x80480bc           <------ gives me the instruction executed at that point
+   0x80480bc <skipwhite>:       xor    %eax,%eax
+(gdb) x/int 0x80480bc         <------ returns what I think is the answer in binary form
+0x80480bc <skipwhite>:  00110001
+(gdb) x/d 0x80480bc           <------ returns what I think is the answer in decimal form
+0x80480bc <skipwhite>:  49
+
+Time to test my theory! .... And still denied.
+
 
