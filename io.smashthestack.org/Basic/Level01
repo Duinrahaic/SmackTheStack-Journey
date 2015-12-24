@@ -1,22 +1,60 @@
 12/24/15
-+Logged into the io.smasthstack.org server with putty. 
-+Started as a level01 user meaing I only have access as a generic user and cannot access level02 or higher levels.
-+cd/levels brought me to all the levels that are on this server
-+using ./ I am able to execute (run) a level. For example ./level01 gives me the first level
-+Executing ./level01 for the first time we are confronted with a three digit passcode.
-+Attemps 001,123,000, and 111 did not work.
-+After some research I was able to see that there was a debugger (gdb) where I can see the code run without modifying or being able to view the soruce code.
+Logged into the io.smasthstack.org server with putty. 
+Started as a level01 user meaing I only have access as a generic user and cannot access level02 or higher levels.
+
+cd/levels brought me to all the levels that are on this server
+using ./ I am able to execute (run) a level. For example ./level01 gives me the first level
+
+Executing ./level01 for the first time we are confronted with a three digit passcode.
+
+Attemps 001,123,000, and 111 did not work.
+
+After some research I was able to see that there was a debugger (gdb) where I can see the code run without modifying or being able to view the soruce code.
+
 #gdb level01        <--- Runs GDB on specific file
 (gdb)       <----------- Now shows I'm in the debugger
 (gdb) run level01     <- Executes (runs) level01 as if I were outside the debugger and using ./level01
 (gdb) disass main     <- All programs have some form of a main loop so were are able to disassemble the main program.
+      
       Dump of assembler code for function main:
          0x08048080 <+0>:     push   $0x8049128
-         0x08048085 <+5>:     call   0x804810f <puts>
-         0x0804808a <+10>:    call   0x804809f <fscanf>
-         0x0804808f <+15>:    cmp    $0x10f,%eax
-         0x08048094 <+20>:    je     0x80480dc <YouWin>
-         0x0804809a <+26>:    call   0x8048103 <exit>
+         0x08048085 <+5>:     call   0x804810f <puts>             <---- First command to put a phrase on the screen, assuming its "Enter the 3 digit passcode to enter:"
+         0x0804808a <+10>:    call   0x804809f <fscanf>           <---- Fscanf is a c command to read the user input. There is no limitation so its just waiting till you hit enter.
+         0x0804808f <+15>:    cmp    $0x10f,%eax                  <---- cmp is short for compare. Assuming its comparing the user input with the correct passphrase
+         0x08048094 <+20>:    je     0x80480dc <YouWin>           <---- je is a jump command in assembly. Where if the solution is correct we are granted access.
+         0x0804809a <+26>:    call   0x8048103 <exit>             <---- Exit program.
 
+The gdb has a command called break point where is pauses the program, and we can view information on it. Taking note of the cmps address we add a breakpoint using the following command:
+(gdb) b *0x0804808f   <----- * is a pointing to the point where the program is comparing user input to that of the correct password
+      Breakpoint 1 at 0x804808f
+Now we run the program and we are confronted with:
+      (gdb) run level01
+      Starting program: /levels/level01 level01
+      Enter the 3 digit passcode to enter: 999
+      
+      Breakpoint 1, 0x0804808f in main ()
 
+Now we can figure out information on the info registers found at this point. Info registers displays the contents of general-purpose processor registers.
+(gdb) i r <----- Also can use "info registers" and it will do the same thing.
+
+      eax            0x3e7    999
+      ecx            0xbfffed68       -1073746584
+      edx            0x1000   4096
+      ebx            0x3e7    999
+      esp            0xbffffd6c       0xbffffd6c
+      ebp            0x0      0x0
+      esi            0xbfffed6c       -1073746580
+      edi            0x0      0
+      eip            0x804808f        0x804808f <main+15>
+      eflags         0x282    [ SF IF ]
+      cs             0x73     115
+      ss             0x7b     123
+      ds             0x7b     123
+      es             0x7b     123
+      fs             0x0      0
+      gs             0x0      0
+
+Things to note: 
+      eip has the same address as our breakpoint/the cmp command. So I assume this means "Execution in progress".
+      eax and ebx holds the value 999 which is what i entered as a test passcode
 
