@@ -68,17 +68,17 @@ x/AAi BBBB  tells the debugger "Hey tell me the next #(AA) set of assembler inst
 so we want the next 20 instructions at the eip.
 (gdb) x/20i $eip              <--- $eip meaing the current value or address at eip. A dollar symbol "$" denotes current value of address counter in the currently active segment.
       => 0x804808f <main+15>: cmp    $0x10f,%eax            <--- Compare
-         0x8048094 <main+20>: je     0x80480dc <YouWin>     <--- True go to... ---- + 
-         0x804809a <main+26>: call   0x8048103 <exit>       <--- Else exit          |
-         0x804809f <fscanf>:  sub    $0x1000,%esp                                   |
-         0x80480a5 <fscanf+6>:        mov    $0x3,%eax                              |
-         0x80480aa <fscanf+11>:       mov    $0x0,%ebx                              |     
-         0x80480af <fscanf+16>:       mov    %esp,%ecx                              |
-         0x80480b1 <fscanf+18>:       mov    $0x1000,%edx                           |
-         0x80480b6 <fscanf+23>:       int    $0x80                                  |
-         0x80480b8 <fscanf+25>:       mov    %esp,%esi                              |
-         0x80480ba <fscanf+27>:       xor    %ebx,%ebx                              |
-         0x80480bc <skipwhite>:       xor    %eax,%eax      <--- here --------------+ So eax holds our value huh?
+         0x8048094 <main+20>: je     0x80480dc <YouWin>     <--- True go to... somewhere outside the 20 instructions
+         0x804809a <main+26>: call   0x8048103 <exit>       <--- Else exit          
+         0x804809f <fscanf>:  sub    $0x1000,%esp                                   
+         0x80480a5 <fscanf+6>:        mov    $0x3,%eax                              
+         0x80480aa <fscanf+11>:       mov    $0x0,%ebx                                 
+         0x80480af <fscanf+16>:       mov    %esp,%ecx                              
+         0x80480b1 <fscanf+18>:       mov    $0x1000,%edx                           
+         0x80480b6 <fscanf+23>:       int    $0x80                                  
+         0x80480b8 <fscanf+25>:       mov    %esp,%esi                              
+         0x80480ba <fscanf+27>:       xor    %ebx,%ebx                              
+         0x80480bc <skipwhite>:       xor    %eax,%eax      
          0x80480be <skipwhite+2>:     lods   %ds:(%esi),%al
          0x80480bf <skipwhite+3>:     cmp    $0x20,%al
          0x80480c1 <skipwhite+5>:     je     0x80480bc <skipwhite>
@@ -88,14 +88,17 @@ so we want the next 20 instructions at the eip.
          0x80480c9 <doit+6>:  imul   $0xa,%ebx,%ebx
          0x80480cc <doit+9>:  add    %eax,%ebx
 
-So I believe the answer is contained in at 0x80480bc, so I can use x/ to find out what its interpreting at that address. 
-(gdb) x/i 0x80480bc           <------ gives me the instruction executed at that point
-   0x80480bc <skipwhite>:       xor    %eax,%eax
-(gdb) x/int 0x80480bc         <------ returns what I think is the answer in binary form
-0x80480bc <skipwhite>:  00110001
-(gdb) x/d 0x80480bc           <------ returns what I think is the answer in decimal form
-0x80480bc <skipwhite>:  49
+So I believe the answer is contained in at %eax, so I can use p/ to find out what its using at that address. 
+(gdb) p/d $eax
+$1 = 999
+Wait, isn't that what I put into it?
+(gdb) p/d 0x10f
+$2 = 271
+Wow thats a new number lets try that...
 
-Time to test my theory! .... And still denied.
+level1@io:/levels$ ./level01
+Enter the 3 digit passcode to enter: 271
+Congrats you found it, now read the password for level2 from /home/level2/.pass
 
-Taking a break to go watch the new Starwars movie... be back later.
+Success! 
+sh-4.2$ cat /home/level2/.pass granted me the passcode: XNWFtWKWHhaaXoKI which is the passcode to level02
