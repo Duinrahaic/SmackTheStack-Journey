@@ -8,3 +8,33 @@ level02_alt.c
 
 running level02 we are granted with the phrase 
 "source code is available in level02.c"
+
+so we use vim to view the source code of level02.c to analyze what is happening. 
+
+  1 //a little fun brought to you by bla
+  2
+  3 #include <stdio.h>
+  4 #include <stdlib.h>
+  5 #include <signal.h>
+  6 #include <unistd.h>
+  7
+  8 void catcher(int a)                                   <------ So this is where we want to be
+  9 {
+ 10         setresuid(geteuid(),geteuid(),geteuid());
+ 11     printf("WIN!\n");
+ 12         system("/bin/sh");
+ 13         exit(0);
+ 14 }
+ 15
+ 16 int main(int argc, char **argv)                         <------- Begining of main statement. Looking input for an int and char as inputs.
+ 17 {
+ 18     puts("source code is available in level02.c\n");
+ 19
+ 20         if (argc != 3 || !atoi(argv[2]))        <------ argc has to  not be 3 or not be able to convert an array to an int from argv
+ 21                 return 1;                       <------ return if either is true
+ 22         signal(SIGFPE, catcher);                <--------  signal reports a fatal arithmetic error which results on the catcher to be used. So we need to break the integer value. 
+ 23         return abs(atoi(argv[1])) / atoi(argv[2]);
+ 24 }
+ 25
+
+
