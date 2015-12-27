@@ -31,7 +31,6 @@ The gdb has a command called break point where is pauses the program, and we can
       (gdb) b *0x0804808f   <----- * is a pointing to the point where the program is comparing user input to that of the correct password
 ````
 Result:
-      
       Breakpoint 1 at 0x804808f
 Now we run the program and we are confronted with:
       (gdb) run level01
@@ -41,7 +40,7 @@ Now we run the program and we are confronted with:
       Breakpoint 1, 0x0804808f in main ()
 
 Now we can figure out information on the info registers found at this point. Info registers displays the contents of general-purpose processor registers.
-
+````
 (gdb) i r <----- Also can use "info registers" and it will do the same thing.
 
       eax            0x3e7    999
@@ -60,7 +59,7 @@ Now we can figure out information on the info registers found at this point. Inf
       es             0x7b     123
       fs             0x0      0
       gs             0x0      0
-
+````
 Things to note: 
 *eip has the same address as our breakpoint/the cmp command. So I assume this means "Execution in progress".
 *eax and ebx holds the value 999 which is what i entered as a test passcode.
