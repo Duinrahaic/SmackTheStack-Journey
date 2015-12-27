@@ -1,17 +1,20 @@
 Level02
-12/25/15 ------------------
+
+12/25/15
+
 Checking out the files in the directory levels there are 4 files relating to level 2.
+
 ````
 level02
 level02_alt
 level02.c
 level02_alt.c
 ```
-running level02 we are granted with the phrase 
+Running level02 we are granted with the phrase 
 ````
 "source code is available in level02.c"
 ````
-so we use vim to view the source code of level02.c to analyze what is happening. 
+So we use vim to view the source code of level02.c to analyze what is happening. 
 ````c
   1 //a little fun brought to you by bla
   2
@@ -42,16 +45,19 @@ so we use vim to view the source code of level02.c to analyze what is happening.
 So essentially we need to figure out how to break the function.
 A little search about the limitation of datatypes in C shows us the ranges of an Int and a Char
 
-A int stores data from -21474836478 to 2147483647.
-A char stores data from -127 to 128.
+*A int stores data from -21474836478 to 2147483647.
+*A char stores data from -127 to 128.
 
 So in order to make the arithmetic on line 23 of level02.c We need to run it with the following arguments.
-
+```
 ./level02 -21473836478 -1
+```
 On line 23 the following happens:
-
+```
 (-21473836478)/(-1) = 21473836478
+```
+But wait, what is the limitation of the integer? -21474836478 to 2147483647! 21473836478 is outside the limit of an Int Value causing the catcher to trigger.
 
-But wait, what is the limitation of the integer? -21474836478 to 2147483647! 21473836478 is outside the limit of an Int Value causing the catcher to trigger and producing a win.
+Success! 
 
-using cat /home/level3/.pass we are granted with level3 access with password OlhCmdZKbuzqngfz
+Using cat /home/level3/.pass we are granted with level3 access with password ~~OlhCmdZKbuzqngfz~~
