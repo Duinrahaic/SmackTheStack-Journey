@@ -1,16 +1,18 @@
 Level02
 12/25/15 ------------------
 Checking out the files in the directory levels there are 4 files relating to level 2.
+````
 level02
 level02_alt
 level02.c
 level02_alt.c
-
+```
 running level02 we are granted with the phrase 
+````
 "source code is available in level02.c"
-
+````
 so we use vim to view the source code of level02.c to analyze what is happening. 
-
+````c
   1 //a little fun brought to you by bla
   2
   3 #include <stdio.h>
@@ -36,7 +38,7 @@ so we use vim to view the source code of level02.c to analyze what is happening.
  23         return abs(atoi(argv[1])) / atoi(argv[2]); <--- If an error is returned here then catcher is signaled.
  24 }
  25
-
+`````
 So essentially we need to figure out how to break the function.
 A little search about the limitation of datatypes in C shows us the ranges of an Int and a Char
 
