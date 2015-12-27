@@ -106,5 +106,7 @@ Wow thats a new number lets try that...
       Enter the 3 digit passcode to enter: 271
       Congrats you found it, now read the password for level2 from /home/level2/.pass
 
-Success! 
-      sh-4.2$ cat /home/level2/.pass granted me the passcode: ~~XNWFtWKWHhaaXoKI~~ which is the passcode to level02
+Success!
+````
+         sh-4.2$ cat /home/level2/.pass granted me the passcode: ~~XNWFtWKWHhaaXoKI~~ which is the passcode to level02
+````
