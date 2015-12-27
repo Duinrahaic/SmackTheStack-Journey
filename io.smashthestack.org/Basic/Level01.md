@@ -12,7 +12,7 @@ Attemps 001,123,000, and 111 did not work. Was just trying luck of the draw on t
 
 After some research I was able to see that there was a debugger (gdb) where I can see the code run without modifying or being able to view the soruce code.
 
- gdb level01        <--- Runs GDB on specific file
+#gdb level01        <--- Runs GDB on specific file
 (gdb)       <----------- Now shows I'm in the debugger
 (gdb) run level01     <- Executes (runs) level01 as if I were outside the debugger and using ./level01
 (gdb) disass main     <- All programs have some form of a main loop so were are able to disassemble the main program.
@@ -60,18 +60,14 @@ Things to note:
       eax and ebx holds the value 999 which is what i entered as a test passcode.
       We can see the values 115 and 123... could those be the answer? Wait, 123 wasn't because I used that earlier tring to do brute force.
 
-      (gdb) Quit <---- Quits the program (it asks y or n before exit)
+(gdb) Quit <---- Quits the program (it asks y or n before exit)
 
 Trying 115... doesn't work! Back to the gdb!
 
-We can try and get a little more information from the processor to try and see what else is going on.
-
-      x/AAi BBBB  tells the debugger "Hey tell me the next #(AA) set of assembler instructions (i) at this address (BBBB)!"
-      
-So we want the next 20 instructions at the eip.
-
-      (gdb) x/20i $eip              <--- $eip meaing the current value or address at eip. A dollar symbol "$" denotes current value of address counter in the currently active segment.
-     
+We can try and get a little more information from the processor to try and see what else is going on. 
+x/AAi BBBB  tells the debugger "Hey tell me the next #(AA) set of assembler instructions (i) at this address (BBBB)!"
+so we want the next 20 instructions at the eip.
+(gdb) x/20i $eip              <--- $eip meaing the current value or address at eip. A dollar symbol "$" denotes current value of address counter in the currently active segment.
       => 0x804808f <main+15>: cmp    $0x10f,%eax            <--- Compare
          0x8048094 <main+20>: je     0x80480dc <YouWin>     <--- True go to... somewhere outside the 20 instructions
          0x804809a <main+26>: call   0x8048103 <exit>       <--- Else exit          
@@ -94,17 +90,16 @@ So we want the next 20 instructions at the eip.
          0x80480cc <doit+9>:  add    %eax,%ebx
 
 So I believe the answer is contained in at %eax, so I can use p/ to find out what its using at that address. 
-      (gdb) p/d $eax
-      $1 = 999
+(gdb) p/d $eax
+$1 = 999
 Wait, isn't that what I put into it?
-      (gdb) p/d 0x10f
-      $2 = 271
+(gdb) p/d 0x10f
+$2 = 271
 Wow thats a new number lets try that...
 
-      level1@io:/levels$ ./level01
-      Enter the 3 digit passcode to enter: 271
-      Congrats you found it, now read the password for level2 from /home/level2/.pass
+level1@io:/levels$ ./level01
+Enter the 3 digit passcode to enter: 271
+Congrats you found it, now read the password for level2 from /home/level2/.pass
 
-Success!
-      sh-4.2$ cat /home/level2/.pass granted me the passcode: >!XNWFtWKWHhaaXoKI  
-which is the passcode to level02
+Success! 
+sh-4.2$ cat /home/level2/.pass granted me the passcode: ~XNWFtWKWHhaaXoKI~ which is the passcode to level02
