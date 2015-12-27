@@ -1,9 +1,12 @@
 #Level01
 12/24/15
+
 Logged into the io.smasthstack.org server with putty. 
+
 Started as a level01 user meaing I only have access as a generic user and cannot access level02 or higher levels.
 
 cd/levels brought me to all the levels that are on this server
+
 using ./ I am able to execute (run) a level. For example ./level01 gives me the first level
 
 Executing ./level01 for the first time we are confronted with a three digit passcode.
