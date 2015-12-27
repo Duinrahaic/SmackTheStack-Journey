@@ -27,7 +27,9 @@ Dump of assembler code for function main:
          0x0804809a <+26>:    call   0x8048103 <exit>             <---- Exit program.
 ```
 The gdb has a command called break point where is pauses the program, and we can view information on it. Taking note of the cmps address we add a breakpoint using the following command:
+````
       (gdb) b *0x0804808f   <----- * is a pointing to the point where the program is comparing user input to that of the correct password
+````
 Result:
       
       Breakpoint 1 at 0x804808f
