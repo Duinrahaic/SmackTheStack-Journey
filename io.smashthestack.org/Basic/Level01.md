@@ -12,7 +12,7 @@ Attemps 001,123,000, and 111 did not work. Was just trying luck of the draw on t
 
 After some research I was able to see that there was a debugger (gdb) where I can see the code run without modifying or being able to view the soruce code.
 
-#gdb level01        <--- Runs GDB on specific file
+gdb level01        <--- Runs GDB on specific file
 (gdb)       <----------- Now shows I'm in the debugger
 (gdb) run level01     <- Executes (runs) level01 as if I were outside the debugger and using ./level01
 (gdb) disass main     <- All programs have some form of a main loop so were are able to disassemble the main program.
