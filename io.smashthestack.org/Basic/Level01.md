@@ -18,13 +18,14 @@ After some research I was able to see that there was a debugger (gdb) where I ca
          (gdb) disass main     <- All programs have some form of a main loop so were are able to disassemble the main program.
 
 Dump of assembler code for function main:
+```
          0x08048080 <+0>:     push   $0x8049128
          0x08048085 <+5>:     call   0x804810f <puts>             <---- First command to put a phrase on the screen, assuming its "Enter the 3 digit passcode to enter:"
          0x0804808a <+10>:    call   0x804809f <fscanf>           <---- Fscanf is a c command to read the user input. There is no limitation so its just waiting till you hit enter.
          0x0804808f <+15>:    cmp    $0x10f,%eax                  <---- cmp is short for compare. Assuming its comparing the user input with the correct passphrase
          0x08048094 <+20>:    je     0x80480dc <YouWin>           <---- je is a jump command in assembly. Where if the solution is correct we are granted access.
          0x0804809a <+26>:    call   0x8048103 <exit>             <---- Exit program.
-
+```
 The gdb has a command called break point where is pauses the program, and we can view information on it. Taking note of the cmps address we add a breakpoint using the following command:
       (gdb) b *0x0804808f   <----- * is a pointing to the point where the program is comparing user input to that of the correct password
 Result:
