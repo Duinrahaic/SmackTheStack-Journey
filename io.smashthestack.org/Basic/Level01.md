@@ -67,7 +67,7 @@ Trying 115... doesn't work! Back to the gdb!
 We can try and get a little more information from the processor to try and see what else is going on. 
 x/AAi BBBB  tells the debugger "Hey tell me the next #(AA) set of assembler instructions (i) at this address (BBBB)!"
 so we want the next 20 instructions at the eip.
-(gdb) x/20i $eip              <--- $eip meaing the current value or address at eip. A dollar symbol "$" denotes current value of address counter in the currently active segment.
+      (gdb) x/20i $eip              <--- $eip meaing the current value or address at eip. A dollar symbol "$" denotes current value of address counter in the currently active segment.
       => 0x804808f <main+15>: cmp    $0x10f,%eax            <--- Compare
          0x8048094 <main+20>: je     0x80480dc <YouWin>     <--- True go to... somewhere outside the 20 instructions
          0x804809a <main+26>: call   0x8048103 <exit>       <--- Else exit          
