@@ -1,3 +1,4 @@
+#Level01
 12/24/15
 Logged into the io.smasthstack.org server with putty. 
 Started as a level01 user meaing I only have access as a generic user and cannot access level02 or higher levels.
