@@ -46,3 +46,5 @@ A char stores data from 0 to 255.
 So in order to make the logic on line 20 of level02.c We need to run it with the following arguments.
 
 ./level02 -21473836479 256
+
+using cat /home/level3/.pass we are granted with level3 access with password OlhCmdZKbuzqngfz
