@@ -28,7 +28,7 @@ so we use vim to view the source code of level02.c to analyze what is happening.
  15
  16 int main(int argc, char **argv)                         <------- Begining of main statement. Looking input for an int and char as inputs.
  17 {
- 18     puts("source code is available in level02.c\n");
+ 18     puts("source code is available in level02.c\n");    <-------- Prints this when ran
  19
  20         if (argc != 3 || !atoi(argv[2]))        <------ argc has to  not be 3 or not be able to convert an array to an int from argv
  21                 return 1;                       <------ return if either is true
@@ -37,4 +37,12 @@ so we use vim to view the source code of level02.c to analyze what is happening.
  24 }
  25
 
+So essentially we need to figure out how to break the function.
+A little search about the limitation of datatypes in C shows us the ranges of an Int and a Char
 
+A int stores data from -21474836478 to 2147483647.
+A char stores data from 0 to 255.
+
+So in order to make the logic on line 20 of level02.c We need to run it with the following arguments.
+
+./level02 -21473836479 256
