@@ -45,8 +45,8 @@ So we use vim to view the source code of level02.c to analyze what is happening.
 So essentially we need to figure out how to break the function.
 A little search about the limitation of datatypes in C shows us the ranges of an Int and a Char
 
-*A int stores data from -21474836478 to 2147483647.
-*A char stores data from -127 to 128.
+* A int stores data from -21474836478 to 2147483647.
+* A char stores data from -127 to 128.
 
 So in order to make the arithmetic on line 23 of level02.c We need to run it with the following arguments.
 ```
