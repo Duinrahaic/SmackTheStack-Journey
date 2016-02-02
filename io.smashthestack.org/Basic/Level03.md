@@ -1,8 +1,6 @@
 #Level03
 
-12/27/15
-
-As we've done the previous times we login to server to search for files similar to level 3. 
+As we've done the previous times we login to server to search for files similar to level 2. 
 
 ```
 
